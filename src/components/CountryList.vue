@@ -13,9 +13,9 @@
         "
       />
     </div>
-    <a>
+    <p>
       {{ country.name }}
-    </a>
+    </p>
   </div>
 </template>
 
@@ -38,10 +38,10 @@
     width: 64px;
     margin: auto;
   }
-  .country-wrapper a {
-    display: block;
+  .country-wrapper p {
     width: 200px;
     text-align: center;
+    margin: 0;
   }
   .country-wrapper:hover {
     background: #d9dddc;

@@ -8,8 +8,8 @@
 </template>
 
 <script>
-  import CountryList from "./components/CountryList.vue";
-  import WorldStatistics from "./components/WorldStatistics.vue";
+  import CountryList from "../components/CountryList.vue";
+  import WorldStatistics from "../components/WorldStatistics.vue";
   import axios from "axios";
 
   export default {
@@ -31,7 +31,6 @@
       });
 
       const target = document.querySelector(".bottom-section");
-      console.log(target);
 
       target.addEventListener("wheel", (event) => {
         const toLeft = event.deltaY < 0 && target.scrollLeft > 0;
