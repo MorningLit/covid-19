@@ -5,6 +5,7 @@
     v-for="country in countries"
     :key="country.name"
     class="country-wrapper"
+    @click="$emit('display-country', country.code)"
   >
     <div class="flag-wrapper">
       <img

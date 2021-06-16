@@ -1,9 +1,13 @@
 <template>
   <div class="top-section">
-    <WorldStatistics :worldStats="worldStats" />
+    <WorldStatistics
+      :worldStats="worldStats"
+      :countryStats="countryStats"
+      @display-world="displayWorld"
+    />
   </div>
   <div class="bottom-section">
-    <CountryList :countries="countries" />
+    <CountryList :countries="countries" @display-country="changeStats" />
   </div>
 </template>
 
@@ -19,7 +23,19 @@
       return {
         countries: null,
         worldStats: null,
+        countryStats: null,
       };
+    },
+    methods: {
+      changeStats(stats) {
+        axios.get(`https://corona-api.com/countries/${stats}`).then((res) => {
+          this.countryStats = res.data.data;
+          console.log(res.data.data);
+        });
+      },
+      displayWorld() {
+        this.countryStats = null;
+      },
     },
     mounted() {
       axios.get("https://corona-api.com/countries").then((res) => {

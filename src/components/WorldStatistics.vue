@@ -7,10 +7,12 @@
         >&nbsp;&nbsp;
         <h2>{{ worldStats.date }}</h2>
       </div>
-      <h1><b>COVID-19 Statistics</b></h1>
+      <h1 class="title-covid" @click="$emit('display-world')">
+        <b>COVID-19 Statistics</b>
+      </h1>
       <h3>ACTIVE: {{ numberWithCommas(worldStats.active) }}</h3>
     </div>
-    <div>
+    <div v-if="!countryStats">
       <div class="new-cases">
         <h2 class="deaths">
           NEW DEATHS: {{ numberWithCommas(worldStats.new_deaths) }}
@@ -34,13 +36,39 @@
         </h3>
       </div>
     </div>
+    <div v-else class="country-grid">
+      <div class="country-name">
+        <img
+          v-bind:src="
+            'https://www.countryflags.io/' + countryStats.code + '/flat/64.png'
+          "
+        />
+        <h1>{{ countryStats.name }}</h1>
+      </div>
+      <h3 class="country-new">
+        Today's new cases: {{ numberWithCommas(countryStats.today.confirmed) }}
+      </h3>
+      <div></div>
+      <h3 class="country-new">
+        Today's death: {{ numberWithCommas(countryStats.today.deaths) }}
+      </h3>
+      <h3 class="deaths country-stats">
+        DEATHS: {{ numberWithCommas(countryStats.latest_data.deaths) }}
+      </h3>
+      <h3 class="confirmed country-stats">
+        CONFIRMED: {{ numberWithCommas(countryStats.latest_data.confirmed) }}
+      </h3>
+      <h3 class="recovered country-stats">
+        RECOVERED: {{ numberWithCommas(countryStats.latest_data.recovered) }}
+      </h3>
+    </div>
   </div>
 </template>
 
 <script>
   export default {
     name: "WorldStatistics",
-    props: ["worldStats"],
+    props: ["worldStats", "countryStats"],
     methods: {
       numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -54,6 +82,9 @@
     display: flex;
     justify-content: space-between;
     padding: 0 8px;
+  }
+  .title-covid {
+    cursor: pointer;
   }
   .date-about-wrapper {
     display: flex;
@@ -83,5 +114,19 @@
   }
   .recovered {
     color: darkgreen;
+  }
+  .country-grid {
+    display: grid;
+    text-align: center;
+  }
+  .country-name {
+    grid-column-start: 1;
+    grid-column-end: 4;
+  }
+  .country-name h1 {
+    margin-top: 0;
+  }
+  .country-name img {
+    width: 100px;
   }
 </style>
