@@ -10,7 +10,7 @@
     </h1>
     <h1>
       Country flag images pulled from
-      <a href="https://www.countryflags.io/" target="_blank">CountryFlag.io</a>
+      <a href="https://www.countryflags.io/" target="_blank">CountryFlags.io</a>
     </h1>
   </div>
 </template>
