@@ -1,5 +1,7 @@
 <template>
-  <div v-if="!countries"><h1>Loading</h1></div>
+  <div v-if="!Array.isArray(countries) || !countries.length">
+    <h1>No country found!</h1>
+  </div>
   <div
     v-else
     v-for="country in countries"

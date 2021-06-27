@@ -6,8 +6,21 @@
       @display-world="displayWorld"
     />
   </div>
+  <div class="middle-section">
+    <input type="text" v-model="search" placeholder="Search countries..." />
+    <div>
+      <label>Sort by: </label>
+      <select v-model="sort"
+        ><option>A-Z</option
+        ><option>Z-A</option></select
+      >
+    </div>
+  </div>
   <div class="bottom-section">
-    <CountryList :countries="countries" @display-country="changeStats" />
+    <CountryList
+      :countries="filteredCountries"
+      @display-country="changeStats"
+    />
   </div>
 </template>
 
@@ -21,26 +34,53 @@
     components: { CountryList, WorldStatistics },
     data() {
       return {
-        countries: null,
+        countries: [],
         worldStats: null,
         countryStats: null,
+        search: "",
+        sort: "A-Z",
       };
     },
     methods: {
       changeStats(stats) {
         axios.get(`https://corona-api.com/countries/${stats}`).then((res) => {
           this.countryStats = res.data.data;
-          console.log(res.data.data);
         });
       },
       displayWorld() {
         this.countryStats = null;
       },
     },
+    computed: {
+      filteredCountries: function() {
+        switch (this.sort) {
+          case "A-Z":
+            return [...this.countries].sort().filter((country) => {
+              return country.name
+                .toLowerCase()
+                .match(this.search.toLowerCase());
+            });
+          case "Z-A":
+            return [...this.countries]
+              .sort()
+              .reverse()
+              .filter((country) => {
+                return country.name
+                  .toLowerCase()
+                  .match(this.search.toLowerCase());
+              });
+          default:
+            return [...this.countries].sort().filter((country) => {
+              return country.name
+                .toLowerCase()
+                .match(this.search.toLowerCase());
+            });
+        }
+      },
+    },
     mounted() {
       axios.get("https://corona-api.com/countries").then((res) => {
         this.countries = res.data.data;
-        console.log(res.data.data);
       });
       axios.get("https://corona-api.com/timeline").then((res) => {
         this.worldStats = res.data.data[0];
@@ -73,8 +113,15 @@
     flex-direction: column;
   }
   .top-section {
-    height: 70vh;
+    height: 66vh;
     overflow-y: auto;
+  }
+  .middle-section {
+    height: 4vh;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: space-between;
   }
   .bottom-section {
     height: 30vh;
