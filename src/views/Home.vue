@@ -1,26 +1,29 @@
 <template>
-  <div class="top-section">
-    <WorldStatistics
-      :worldStats="worldStats"
-      :countryStats="countryStats"
-      @display-world="displayWorld"
-    />
-  </div>
-  <div class="middle-section">
-    <input type="text" v-model="search" placeholder="Search countries..." />
-    <div>
-      <label>Sort by: </label>
-      <select v-model="sort"
-        ><option>A-Z</option
-        ><option>Z-A</option></select
-      >
+  <div :class="darkMode ? 'dark' : ''">
+    <div class="top-section">
+      <WorldStatistics
+        :worldStats="worldStats"
+        :countryStats="countryStats"
+        @display-world="displayWorld"
+        :toggleDark="toggleDark"
+      />
     </div>
-  </div>
-  <div class="bottom-section">
-    <CountryList
-      :countries="filteredCountries"
-      @display-country="changeStats"
-    />
+    <div class="middle-section">
+      <input type="text" v-model="search" placeholder="Search countries..." />
+      <div>
+        <label>Sort by: </label>
+        <select v-model="sort"
+          ><option>A-Z</option
+          ><option>Z-A</option></select
+        >
+      </div>
+    </div>
+    <div class="bottom-section">
+      <CountryList
+        :countries="filteredCountries"
+        @display-country="changeStats"
+      />
+    </div>
   </div>
 </template>
 
@@ -39,6 +42,7 @@
         countryStats: null,
         search: "",
         sort: "A-Z",
+        darkMode: false,
       };
     },
     methods: {
@@ -49,6 +53,9 @@
       },
       displayWorld() {
         this.countryStats = null;
+      },
+      toggleDark() {
+        this.darkMode = !this.darkMode;
       },
     },
     computed: {
@@ -128,5 +135,13 @@
     overflow: auto;
     display: flex;
     align-items: center;
+  }
+
+  .dark {
+    background: #192734;
+    color: #f3f3f3;
+  }
+  .dark .country-wrapper:hover {
+    background: #000;
   }
 </style>

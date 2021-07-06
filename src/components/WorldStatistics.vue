@@ -10,7 +10,13 @@
       <h1 class="title-covid" @click="$emit('display-world')">
         <b>COVID-19 Statistics</b>
       </h1>
-      <h3>ACTIVE: {{ numberWithCommas(worldStats.active) }}</h3>
+      <div class="switch-active-wrapper">
+        <label class="switch">
+          <input type="checkbox" />
+          <span class="slider round" @click="toggleDark"></span>
+        </label>
+        <h3>ACTIVE: {{ numberWithCommas(worldStats.active) }}</h3>
+      </div>
     </div>
     <div v-if="!countryStats">
       <div class="new-cases">
@@ -68,7 +74,7 @@
 <script>
   export default {
     name: "WorldStatistics",
-    props: ["worldStats", "countryStats"],
+    props: ["worldStats", "countryStats", "toggleDark"],
     methods: {
       numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -100,7 +106,7 @@
   }
   .new-cases {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
   }
   .total-cases {
     display: flex;
@@ -128,5 +134,72 @@
   }
   .country-name img {
     width: 100px;
+  }
+  .switch-active-wrapper {
+    display: flex;
+  }
+  /* The switch - the box around the slider */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-top: 1em;
+    margin-right: 16px;
+  }
+
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+
+  input:checked + .slider {
+    background-color: #2196f3;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196f3;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
   }
 </style>

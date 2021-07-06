@@ -36,10 +36,13 @@
     height: 20vh;
     margin-left: 10px;
     margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
   }
   .flag-wrapper {
     width: 64px;
-    margin: auto;
+    margin: 0 auto;
   }
   .country-wrapper p {
     width: 200px;
